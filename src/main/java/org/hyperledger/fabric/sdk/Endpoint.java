@@ -45,7 +45,7 @@ import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslProvider;
 import io.opentelemetry.api.OpenTelemetry;
-import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTracing;
+import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTelemetry;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,12 +66,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hyperledger.fabric.sdk.helper.Utils.parseGrpcUrl;
 
 class Endpoint {
+
     private static final Log logger = LogFactory.getLog(Endpoint.class);
 
     private static final String SSLPROVIDER = Config.getConfig().getDefaultSSLProvider();
     private static final String SSLNEGOTIATION = Config.getConfig().getDefaultSSLNegotiationType();
     private static final OpenTelemetry openTelemetry = Config.getConfig().getOpenTelemetry();
-    private static final GrpcTracing grpcTracing = GrpcTracing.create(openTelemetry);
+    private static final GrpcTelemetry grpcTelemetry = GrpcTelemetry.create(openTelemetry);
 
     private final String addr;
     private final int port;
@@ -172,28 +173,28 @@ class Endpoint {
                 }
                 // check for mutual TLS - both clientKey and clientCert must be present
                 byte[] ckb = null, ccb = null;
-                if (properties.containsKey("clientKeyFile") && properties.containsKey("clientKeyBytes")) {
+                if (properties.containsKey(NetworkConfig.CLIENT_KEY_FILE) && properties.containsKey(NetworkConfig.CLIENT_KEY_BYTES)) {
                     throw new RuntimeException("Properties \"clientKeyFile\" and \"clientKeyBytes\" must cannot both be set");
-                } else if (properties.containsKey("clientCertFile") && properties.containsKey("clientCertBytes")) {
+                } else if (properties.containsKey(NetworkConfig.CLIENT_CERT_FILE) && properties.containsKey(NetworkConfig.CLIENT_CERT_BYTES)) {
                     throw new RuntimeException("Properties \"clientCertFile\" and \"clientCertBytes\" must cannot both be set");
-                } else if (properties.containsKey("clientKeyFile") || properties.containsKey("clientCertFile")) {
-                    if ((properties.getProperty("clientKeyFile") != null) && (properties.getProperty("clientCertFile") != null)) {
+                } else if (properties.containsKey(NetworkConfig.CLIENT_KEY_FILE) || properties.containsKey(NetworkConfig.CLIENT_CERT_FILE)) {
+                    if ((properties.getProperty(NetworkConfig.CLIENT_KEY_FILE) != null) && (properties.getProperty(NetworkConfig.CLIENT_CERT_FILE) != null)) {
                         try {
-                            logger.trace(format("Endpoint %s reading clientKeyFile: %s", url, properties.getProperty("clientKeyFile")));
-                            ckb = Files.readAllBytes(Paths.get(properties.getProperty("clientKeyFile")));
-                            logger.trace(format("Endpoint %s reading clientCertFile: %s", url, properties.getProperty("clientCertFile")));
-                            ccb = Files.readAllBytes(Paths.get(properties.getProperty("clientCertFile")));
+                            logger.trace(format("Endpoint %s reading clientKeyFile: %s", url, properties.getProperty(NetworkConfig.CLIENT_KEY_FILE)));
+                            ckb = Files.readAllBytes(Paths.get(properties.getProperty(NetworkConfig.CLIENT_KEY_FILE)));
+                            logger.trace(format("Endpoint %s reading clientCertFile: %s", url, properties.getProperty(NetworkConfig.CLIENT_CERT_FILE)));
+                            ccb = Files.readAllBytes(Paths.get(properties.getProperty(NetworkConfig.CLIENT_CERT_FILE)));
                         } catch (IOException e) {
                             throw new RuntimeException("Failed to parse TLS client key and/or cert", e);
                         }
                     } else {
-                        throw new RuntimeException("Properties \"clientKeyFile\" and \"clientCertFile\" must both be set or both be null");
+                        throw new RuntimeException(String.format("Properties \"%s\" and \"%s\" must both be set or both be null", NetworkConfig.CLIENT_KEY_FILE, NetworkConfig.CLIENT_CERT_FILE));
                     }
-                } else if (properties.containsKey("clientKeyBytes") || properties.containsKey("clientCertBytes")) {
-                    ckb = (byte[]) properties.get("clientKeyBytes");
-                    ccb = (byte[]) properties.get("clientCertBytes");
+                } else if (properties.containsKey(NetworkConfig.CLIENT_KEY_BYTES) || properties.containsKey(NetworkConfig.CLIENT_CERT_BYTES)) {
+                    ckb = (byte[]) properties.get(NetworkConfig.CLIENT_KEY_BYTES);
+                    ccb = (byte[]) properties.get(NetworkConfig.CLIENT_CERT_BYTES);
                     if ((ckb == null) || (ccb == null)) {
-                        throw new RuntimeException("Properties \"clientKeyBytes\" and \"clientCertBytes\" must both be set or both be null");
+                        throw new RuntimeException(String.format("Properties \"%s\" and \"%s\" must both be set or both be null", NetworkConfig.CLIENT_KEY_BYTES, NetworkConfig.CLIENT_CERT_BYTES));
                     }
                 }
 
@@ -241,7 +242,7 @@ class Endpoint {
         }
 
         try {
-            ClientInterceptor clientInterceptor = grpcTracing.newClientInterceptor();
+            ClientInterceptor clientInterceptor = grpcTelemetry.newClientInterceptor();
             if (protocol.equalsIgnoreCase("grpc")) {
                 this.channelBuilder = NettyChannelBuilder.forAddress(addr, port).negotiationType(NegotiationType.PLAINTEXT).intercept(clientInterceptor);
                 addNettyBuilderProps(channelBuilder, properties);
@@ -400,28 +401,28 @@ class Endpoint {
 
         // check for mutual TLS - both clientKey and clientCert must be present
         byte[] ckb = null, ccb = null;
-        if (properties.containsKey("clientKeyFile") && properties.containsKey("clientKeyBytes")) {
+        if (properties.containsKey(NetworkConfig.CLIENT_KEY_FILE) && properties.containsKey(NetworkConfig.CLIENT_KEY_BYTES)) {
             throw new RuntimeException("Properties \"clientKeyFile\" and \"clientKeyBytes\" must cannot both be set");
-        } else if (properties.containsKey("clientCertFile") && properties.containsKey("clientCertBytes")) {
+        } else if (properties.containsKey(NetworkConfig.CLIENT_CERT_FILE) && properties.containsKey(NetworkConfig.CLIENT_CERT_BYTES)) {
             throw new RuntimeException("Properties \"clientCertFile\" and \"clientCertBytes\" must cannot both be set");
-        } else if (properties.containsKey("clientKeyFile") || properties.containsKey("clientCertFile")) {
-            if ((properties.getProperty("clientKeyFile") != null) && (properties.getProperty("clientCertFile") != null)) {
+        } else if (properties.containsKey(NetworkConfig.CLIENT_KEY_FILE) || properties.containsKey(NetworkConfig.CLIENT_CERT_FILE)) {
+            if ((properties.getProperty(NetworkConfig.CLIENT_KEY_FILE) != null) && (properties.getProperty(NetworkConfig.CLIENT_CERT_FILE) != null)) {
                 try {
-                    logger.trace(format("Endpoint %s reading clientKeyFile: %s", url, new File(properties.getProperty("clientKeyFile")).getAbsolutePath()));
-                    ckb = Files.readAllBytes(Paths.get(properties.getProperty("clientKeyFile")));
-                    logger.trace(format("Endpoint %s reading clientCertFile: %s", url, new File(properties.getProperty("clientCertFile")).getAbsolutePath()));
-                    ccb = Files.readAllBytes(Paths.get(properties.getProperty("clientCertFile")));
+                    logger.trace(format("Endpoint %s reading clientKeyFile: %s", url, new File(properties.getProperty(NetworkConfig.CLIENT_KEY_FILE)).getAbsolutePath()));
+                    ckb = Files.readAllBytes(Paths.get(properties.getProperty(NetworkConfig.CLIENT_KEY_FILE)));
+                    logger.trace(format("Endpoint %s reading clientCertFile: %s", url, new File(properties.getProperty(NetworkConfig.CLIENT_CERT_FILE)).getAbsolutePath()));
+                    ccb = Files.readAllBytes(Paths.get(properties.getProperty(NetworkConfig.CLIENT_CERT_FILE)));
                 } catch (IOException e) {
                     throw new RuntimeException("Failed to parse TLS client key and/or cert", e);
                 }
             } else {
-                throw new RuntimeException("Properties \"clientKeyFile\" and \"clientCertFile\" must both be set or both be null");
+                throw new RuntimeException(String.format("Properties \"%s\" and \"%s\" must both be set or both be null", NetworkConfig.CLIENT_KEY_FILE, NetworkConfig.CLIENT_CERT_FILE));
             }
-        } else if (properties.containsKey("clientKeyBytes") || properties.containsKey("clientCertBytes")) {
-            ckb = (byte[]) properties.get("clientKeyBytes");
-            ccb = (byte[]) properties.get("clientCertBytes");
+        } else if (properties.containsKey(NetworkConfig.CLIENT_KEY_BYTES) || properties.containsKey(NetworkConfig.CLIENT_CERT_BYTES)) {
+            ckb = (byte[]) properties.get(NetworkConfig.CLIENT_KEY_BYTES);
+            ccb = (byte[]) properties.get(NetworkConfig.CLIENT_CERT_BYTES);
             if ((ckb == null) || (ccb == null)) {
-                throw new RuntimeException("Properties \"clientKeyBytes\" and \"clientCertBytes\" must both be set or both be null");
+                throw new RuntimeException(String.format("Properties \"%s\" and \"%s\" must both be set or both be null", NetworkConfig.CLIENT_KEY_BYTES, NetworkConfig.CLIENT_CERT_BYTES));
             }
         }
 

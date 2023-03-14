@@ -1,10 +1,131 @@
+# Changelog
+
+Notable changes in each release are documented on the project's [GitHub releases](https://github.com/hyperledger/fabric-sdk-java/releases) page. Historic changelog is retained below for reference.
+
+## v2.2.19
+Tue 29 Nov 2022 15:34:43 GMT
+
+* [df2a61d](https://github.com/hyperledger/fabric-sdk-java/commit/df2a61d) Update dependencies
+* [058f33e](https://github.com/hyperledger/fabric-sdk-java/commit/058f33e) Change executor service defaults (#242)
+
+## v2.2.18
+Fri  7 Oct 2022 09:54:17 BST
+
+* [641286f](https://github.com/hyperledger/fabric-sdk-java/commit/641286f) Update protobuf-java dependency to address CVE-2022-3171 (#238)
+
+## v2.2.17
+Wed 21 Sep 2022 14:41:42 BST
+
+* [234774d](https://github.com/hyperledger/fabric-sdk-java/commit/234774d) Update dependencies to address CVE-2022-38752 (#231) (#233)
+* [d1bbf2f](https://github.com/hyperledger/fabric-sdk-java/commit/d1bbf2f) Update dependencies to support Apple silicon (M1 / arm64) (#232)
+
+## v2.2.16
+Wed  7 Sep 2022 11:10:37 BST
+
+* [446076a](https://github.com/hyperledger/fabric-sdk-java/commit/446076a) Fix CVE-2022-25857 (#224) (#225)
+
+## v2.2.15
+Thu  7 Jul 2022 13:35:21 BST
+
+* [f5cd62a](https://github.com/hyperledger/fabric-sdk-java/commit/f5cd62a) GitHub Actions build (#218)
+* [19b7291](https://github.com/hyperledger/fabric-sdk-java/commit/19b7291) Update chaincode dependencies to avoid dependabot alerts (#217)
+* [599fe3d](https://github.com/hyperledger/fabric-sdk-java/commit/599fe3d) Performance improvement for CryptoPrimitives (#214)
+* [0e4098d](https://github.com/hyperledger/fabric-sdk-java/commit/0e4098d) Disabled scehduled security vulnerability scan (#213)
+
+## v2.2.14
+Thu 12 May 2022 13:41:46 BST
+
+* [7c96d5a](https://github.com/hyperledger/fabric-sdk-java/commit/7c96d5a) Address security vulnerability CVE-2022-25647 (#199) (#200)
+
+## v2.2.13
+Tue 29 Mar 2022 15:17:20 BST
+
+* [ab5f8db](https://github.com/hyperledger/fabric-sdk-java/commit/ab5f8db) upgrade opentelemetry version to 1.12.0 (#196)
+* [de6968c](https://github.com/hyperledger/fabric-sdk-java/commit/de6968c) Run vulnerability scan only in the nightly build (#195)
+
+## v2.2.12
+Mon Feb 21 09:06:33 GMT 2022
+
+* [07cc133](https://github.com/hyperledger/fabric-sdk-java/commit/07cc133) Listen to private data in the events (#190)
+* [2481e5d](https://github.com/hyperledger/fabric-sdk-java/commit/2481e5d) Update dependency versions (#187)
+
+## v2.2.11
+Tue  4 Jan 2022 13:34:24 GMT
+
+* [f22299c](https://github.com/hyperledger/fabric-sdk-java/commit/f22299c) Update dependencies (#180)
+* [a3d5112](https://github.com/hyperledger/fabric-sdk-java/commit/a3d5112) Bump log4j-core from 2.16.0 to 2.17.0
+
+## v2.2.10
+Thu 16 Dec 2021 10:03:26 GMT
+
+* [519ba09](https://github.com/hyperledger/fabric-sdk-java/commit/519ba09) Bump log4j-core from 2.15.0 to 2.16.0 (#166)
+
+## v2.2.9
+Tue 14 Dec 2021 09:02:34 GMT
+
+* [f5580d3](https://github.com/hyperledger/fabric-sdk-java/commit/f5580d3) Bump log4j-core from 2.14.0 to 2.15.0
+* [e83c506](https://github.com/hyperledger/fabric-sdk-java/commit/e83c506) Add OpenTelemetry tracing (#151)
+
+## v2.2.8
+Thu 26 Aug 2021 13:49:18 BST
+
+* [6f84e45](https://github.com/hyperledger/fabric-sdk-java/commit/6f84e45) FABJ-480: Fix maxInboundMessageSize yaml reading (#148)
+* [adf7fce](https://github.com/hyperledger/fabric-sdk-java/commit/adf7fce) Explicit dependencies in integration test chaincode
+* [85b91b8](https://github.com/hyperledger/fabric-sdk-java/commit/85b91b8) Update Chaincode Dependency (#142)
+
+## v2.2.7
+Fri 11 Jun 2021 09:48:22 BST
+
+* [043af87](https://github.com/hyperledger/fabric-sdk-java/commit/043af87) FGJ-111: Minimise explicit gRPC dependencies (#135)
+* [66aecdf](https://github.com/hyperledger/fabric-sdk-java/commit/66aecdf) Update BlockchainInfo.java (#133)
+
+## v2.2.6
+Fri 23 Apr 2021 16:02:16 BST
+
+* [6712c7a](https://github.com/hyperledger/fabric-sdk-java/commit/6712c7a) FGJ-108: Update commons-io dependency (#126)
+* [df1827a](https://github.com/hyperledger/fabric-sdk-java/commit/df1827a) Update netty-codec-http2 dependency (#120)
+* [eff4927](https://github.com/hyperledger/fabric-sdk-java/commit/eff4927) [FABJ-549] Assert fail if less (#118)
+* [389d784](https://github.com/hyperledger/fabric-sdk-java/commit/389d784) [FABJ-545] Move log4j version to 2.14.0 (#114)
+
+## v2.2.5
+Fri 22 Jan 2021 13:04:10 GMT
+
+* [45079bc](https://github.com/hyperledger/fabric-sdk-java/commit/45079bc) Fgj 101 update dependency v22 (#111)
+
+## v2.2.4
+Wed 13 Jan 2021 10:09:17 GMT
+
+* [a239686](https://github.com/hyperledger/fabric-sdk-java/commit/a239686) FABJ-544 Add ability to check if a transaction is the init transaction (#106) (#108)
+* [5f08e57](https://github.com/hyperledger/fabric-sdk-java/commit/5f08e57) FABJ-536 Add support for mutual TLS when connecting to CA
+
+## v2.2.3
+Wed  4 Nov 2020 11:37:06 GMT
+
+* [62eef7a](https://github.com/hyperledger/fabric-sdk-java/commit/62eef7a) [FGJ-96]-Update httpclient version (#100)
+* [9bc7c21](https://github.com/hyperledger/fabric-sdk-java/commit/9bc7c21) FABJ-541: Run builds on Ubuntu 20.04 (#99)
+* [72ce029](https://github.com/hyperledger/fabric-sdk-java/commit/72ce029) Update junit patch level (#93)
+
+## v2.2.2
+Tue 13 Oct 2020 14:22:40 BST
+
+* [542fee1](https://github.com/hyperledger/fabric-sdk-java/commit/542fee1) FABJ-539: Close streams used to load policy from YAML (#87)
+* [cbee158](https://github.com/hyperledger/fabric-sdk-java/commit/cbee158) FABJ-540: Use newline separators when concatenating certificate PEM (#86)
+* [e5c50c8](https://github.com/hyperledger/fabric-sdk-java/commit/e5c50c8) [FABJ-534] Use Bouncy Castle to generate private keys (#79)
+* [14116b2](https://github.com/hyperledger/fabric-sdk-java/commit/14116b2) FABJ-532: Scheduled builds (#74)
+
+## v2.2.1
+Fri 31 Jul 2020 13:12:02 BST
+
+* [61dff3a](https://github.com/hyperledger/fabric-sdk-java/commit/61dff3a) FABJ-531: Remove deprecated use of NettyChannelBuilder.usePlaintext(boolean)
+* [78fe1b5](https://github.com/hyperledger/fabric-sdk-java/commit/78fe1b5) Prepare release-2.2 branch (#69)
+
 ## v2.2.0
 Wed 15 Jul 2020 14:36:07 BST
 
 * [e9152db](https://github.com/hyperledger/fabric-sdk-java/commit/e9152db) Prune missleading legacy document (#66)
 * [4e24e47](https://github.com/hyperledger/fabric-sdk-java/commit/4e24e47) Add baseos to vendored images and bump fab version (#67)
 
-## 2.1.4
+## v2.1.4
 Fri  3 Jul 2020 11:18:31 BST
 
 * [f9755b5](https://github.com/hyperledger/fabric-sdk-java/commit/f9755b5) [FABJ-521] Allow arrays of PEM content in connection profile (#62)

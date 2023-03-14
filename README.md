@@ -1,21 +1,11 @@
-# Hyperledger Fabric SDK for Java
+# Hyperledger Fabric SDK for Java <a href="https://github.com/hyperledger/fabric-sdk-java/actions/workflows/schedule.yml"><img src="https://github.com/hyperledger/fabric-sdk-java/actions/workflows/schedule.yml/badge.svg" alt="Build status" style="float: right"></a>
 
-<div style="float: right">
-<table align="right">
-  <tr><th>Branch</th><th>Build status</th></tr>
-  <tr><td>main</td><td><a href="https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_build/latest?definitionId=36&branchName=main"><img src="https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_apis/build/status/Fabric-SDK-Java?branchName=main"></a></td></tr>
-  <tr><td>release-2.2</td><td><a href="https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_build/latest?definitionId=36&branchName=release-2.2"><img src="https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_apis/build/status/Fabric-SDK-Java?branchName=release-2.2"></a></td></tr>
-  <tr><td>release-1.4</td><td><a href="https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_build/latest?definitionId=36&branchName=release-1.4"><img src="https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_apis/build/status/Fabric-SDK-Java?branchName=release-1.4"></a></td></tr>
-</table>
-</div>
+> **Note:** This API is deprecated. When developing applications for Hyperledger Fabric v2.4 and later, you should use the [Fabric Gateway client API](https://hyperledger.github.io/fabric-gateway/). When developing applications for earlier Fabric versions, you are strongly encouraged to use the high-level API detailed below.
 
-[![Build Status](https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_apis/build/status/Fabric-SDK-Java?branchName=release-2.2)](https://dev.azure.com/Hyperledger/Fabric-SDK-Java/_build/latest?definitionId=36&branchName=release-2.2)
 This project provides a low-level API for interacting with Hyperledger Fabric blockchain networks, and is used by the
 high-level **Hyperledger Fabric Gateway SDK for Java**:
 - Documentation: https://hyperledger.github.io/fabric-gateway-java/
 - GitHub repository: https://github.com/hyperledger/fabric-gateway-java/
-
-For building Hyperledger Fabric blockchain client applications, you are strongly encouraged to use the high level API.
 
 The information below is intended for contributors to this repository.
 
@@ -418,6 +408,15 @@ Fabric CA
 by starting command have the -d parameter.
 
 Upload full logs to JIRA, not just where the issue occurred if possible
+
+### Tracing
+
+The SDK is set up to trace all gRPC communications:
+* All outgoing messages bear trace metadata, allowing correlation with peers.
+* Each request/response is computed as a span.
+* If you use OpenTelemetry in your program, the gRPC span will correlate using the thread local context to the parent context.
+
+The SDK accepts all environment variables as described in the [OpenTelemetry specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md).
 
 ### Tracing
 
